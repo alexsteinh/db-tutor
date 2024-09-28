@@ -19,6 +19,10 @@
     });
   });
 
+  $: if (editor && text !== editor.getValue()) {
+    editor.setValue(text, 1);
+  }
+
   onDestroy(() => {
     editor?.destroy();
   });

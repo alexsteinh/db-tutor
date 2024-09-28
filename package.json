@@ -28,7 +28,7 @@
     "ace-builds": "^1.36.2",
     "bits-ui": "^0.21.15",
     "clsx": "^2.1.1",
-    "lucide-svelte": "^0.441.0",
+    "lucide-svelte": "^0.446.0",
     "mode-watcher": "^0.4.1",
     "table": "^6.8.2",
     "tailwind-merge": "^2.5.2",

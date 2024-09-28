@@ -1,8 +1,12 @@
 <script>
   import Editor from "$lib/components/editor.svelte";
   import { Button } from "$lib/components/ui/button";
+  import * as Select from "$lib/components/ui/select";
+  import { schemas } from "$lib/schemas";
   import { table } from "table";
   import { onMount } from "svelte";
+
+  let selectedSchema = schemas["Unischema"];
 
   /** @type Worker */
   let worker;
@@ -10,18 +14,7 @@
 
   $: databaseReady = !!sqliteVersion;
 
-  let text = `with Professoren (persnr, name, rang, raum, gehalt, steuerklasse) as (
-values (2125,'Sokrates','C4',226,85000,1),
-       (2126,'Russel','C4',232,80000,3),
-       (2127,'Kopernikus','C3',310,65000,5),
-       (2128,'Aristoteles','C4',250,85000,1),
-       (2133,'Popper','C3',52,68000,1),
-       (2134,'Augustinus','C3',309,55000,5),
-       (2136,'Curie','C4',36,95000,3),
-       (2137,'Kant','C4',7,98000,1)
-)
-
-SELECT * from professoren`;
+  let text = "";
   let result;
 
   $: resultTable = !!result && table([[...result.columns], ...result.rows]);
@@ -51,7 +44,17 @@ SELECT * from professoren`;
 
   function execute() {
     if (!databaseReady) return;
-    worker.postMessage({ type: "exec", sql: text });
+    worker.postMessage({
+      type: "exec",
+      sql: (() => {
+        if (selectedSchema) return selectedSchema.sql + "\n" + text;
+        return text;
+      })(),
+    });
+  }
+
+  function schemaChanged() {
+    text = selectedSchema.exampleQuery;
   }
 </script>
 
@@ -60,8 +63,22 @@ SELECT * from professoren`;
 <div class="flex min-h-svh flex-col p-2">
   <main class="flex flex-1 flex-col gap-3">
     <Editor className="w-full rounded-sm" bind:text />
-    <div>
+    <div class="flex gap-3">
       <Button on:click={execute} disabled={!databaseReady}>Execute</Button>
+      <Select.Root selected={selectedSchema} onSelectedChange={schemaChanged}>
+        <Select.Trigger class="w-[180px]">
+          <Select.Value placeholder="Schema" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Group>
+            {#each Object.values(schemas) as schema}
+              <Select.Item value={schema} label={schema.name}
+                >{schema.name}</Select.Item
+              >
+            {/each}
+          </Select.Group>
+        </Select.Content>
+      </Select.Root>
     </div>
     <div>
       {#if !result}
