@@ -4,4 +4,8 @@
 </script>
 
 <ModeWatcher />
+<svelte:head>
+  <title>DB Tutor</title>
+</svelte:head>
+
 <slot />

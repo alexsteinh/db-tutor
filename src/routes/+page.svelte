@@ -101,7 +101,7 @@
   </main>
   <footer class="mt-2 text-center font-mono text-xs text-zinc-500">
     {#if databaseReady}
-      SQLite version: {sqliteVersion}
+      sqlite-wasm v{sqliteVersion}
     {/if}
   </footer>
 </div>
