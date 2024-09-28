@@ -17,12 +17,14 @@ onmessage = (event) => {
 
 const executeQuery = (sql) => {
   const columns = new Array();
+  const start = performance.now();
   const rows = db.exec(sql, {
     returnValue: "resultRows",
     columnNames: columns,
     rowMode: "array",
   });
-  return { columns, rows };
+  const end = performance.now();
+  return { columns, rows, elapsed: end - start };
 };
 
 const start = (sqlite3) => {

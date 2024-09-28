@@ -18,6 +18,11 @@
   let result;
 
   $: resultTable = !!result && table([[...result.columns], ...result.rows]);
+  $: resultElapsed =
+    !!result &&
+    (result.elapsed < 1000
+      ? `${result.elapsed.toFixed(2)} ms`
+      : `${(result.elapsed / 1000).toFixed(2)} s`);
 
   onMount(() => {
     worker = new Worker(new URL("$lib/sqlite/worker.js", import.meta.url), {
@@ -85,7 +90,7 @@
         <p class="mb-1 ml-1 font-mono text-xs text-zinc-500">Output</p>
       {:else}
         <p class="mb-1 ml-1 font-mono text-xs text-zinc-500">
-          Output ({result.rows.length} rows)
+          Output ({result.rows.length} rows, {resultElapsed})
         </p>
       {/if}
       <p
