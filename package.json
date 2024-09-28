@@ -25,10 +25,12 @@
   "type": "module",
   "dependencies": {
     "@sqlite.org/sqlite-wasm": "^3.46.1-build3",
-    "bits-ui": "^0.21.13",
+    "ace-builds": "^1.36.2",
+    "bits-ui": "^0.21.15",
     "clsx": "^2.1.1",
     "lucide-svelte": "^0.441.0",
     "mode-watcher": "^0.4.1",
+    "table": "^6.8.2",
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1"
   }
