@@ -1,4 +1,5 @@
 <script>
+  import { ModeWatcher } from "mode-watcher";
   import Editor from "$lib/components/editor.svelte";
   import { Button } from "$lib/components/ui/button";
   import { onMount } from "svelte";
@@ -13,9 +14,18 @@
   let result;
 
   let selectedSchema;
-  $: text = selectedSchema?.exampleQuery ?? "";
+  let text = "";
+  let prevSchema = null;
+
+  $: {
+    if (selectedSchema !== prevSchema) {
+      text = selectedSchema?.exampleQuery ?? "";
+      prevSchema = selectedSchema;
+    }
+  }
 
   onMount(() => {
+    window.addEventListener("keydown", handleKeydown);
     worker = new Worker(new URL("$lib/sqlite/worker.js", import.meta.url), {
       type: "module",
     });
@@ -47,8 +57,7 @@
   }
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
-
+<ModeWatcher />
 <div class="flex min-h-svh flex-col p-2">
   <main class="flex flex-1 flex-col gap-3">
     <Editor className="w-full rounded-sm" bind:text />
@@ -58,7 +67,7 @@
     </div>
     <ResultView {result} />
   </main>
-  <footer class="mt-2 text-center font-mono text-xs text-zinc-500">
+  <footer class="mt-2 text-center font-mono text-xs text-muted-foreground">
     {#if databaseReady}
       sqlite-wasm v{sqliteVersion}
     {/if}

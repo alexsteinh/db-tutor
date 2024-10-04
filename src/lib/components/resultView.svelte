@@ -13,14 +13,14 @@
 
 <div>
   {#if !result}
-    <p class="mb-1 ml-1 font-mono text-xs text-zinc-500">Output</p>
+    <p class="mb-1 ml-1 font-mono text-xs text-muted-foreground">Output</p>
   {:else}
-    <p class="mb-1 ml-1 font-mono text-xs text-zinc-500">
+    <p class="mb-1 ml-1 font-mono text-xs text-muted-foreground">
       Output ({result.rows.length} rows, {resultElapsed})
     </p>
   {/if}
   <p
-    class="overflow-hidden whitespace-pre-wrap rounded-sm bg-zinc-800 p-2 font-mono text-xs"
+    class="overflow-hidden whitespace-pre-wrap rounded-sm bg-muted p-2 font-mono text-xs"
   >
     {#if result}
       {resultTable}

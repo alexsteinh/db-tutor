@@ -1,5 +1,6 @@
-import { sveltekit } from "@sveltejs/kit/vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig } from "vite";
+import path from "path";
 
 function coepCoopHeaders() {
   return {
@@ -15,8 +16,13 @@ function coepCoopHeaders() {
 }
 
 export default defineConfig({
-  plugins: [sveltekit(), coepCoopHeaders()],
+  plugins: [svelte(), coepCoopHeaders()],
   optimizeDeps: {
     exclude: ["@sqlite.org/sqlite-wasm"],
+  },
+  resolve: {
+    alias: {
+      $lib: path.resolve(__dirname, "./src/lib"),
+    },
   },
 });

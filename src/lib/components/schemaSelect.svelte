@@ -3,9 +3,12 @@
   import * as Select from "$lib/components/ui/select";
 
   export let selectedSchema;
+
+  let selectedItem;
+  $: selectedSchema = selectedItem?.value;
 </script>
 
-<Select.Root selected={selectedSchema}>
+<Select.Root bind:selected={selectedItem}>
   <Select.Trigger class="w-[180px]">
     <Select.Value placeholder="Schema" />
   </Select.Trigger>
